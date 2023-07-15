@@ -16,6 +16,7 @@ function generateAlphabet() {
     }
     return result;
 }
+
 function cipherOne(char, shift) {
     if (!generateAlphabet().includes(char)) {
         return char;
@@ -27,8 +28,7 @@ function cipherOne(char, shift) {
     } else if (code < toAscii('a')) {
         code += 26;
     }
-    let result = fromAscii(code)
-    return result;
+    return fromAscii(code);
 }
 
 function caesarCipher(str, shift) {
@@ -37,15 +37,10 @@ function caesarCipher(str, shift) {
     ).join('');
 }
 
-
-let lol = `
-lorem ipsum dolor sit amet, consectetur adipiscing elit.
-`.toLowerCase();
-
-lol = lol.replace('\n', '');
+let cipher = `lorem ipsum dolor sit amet, consectetur adipiscing elit.`.toLowerCase();
 
 for (let i = 0; i < 27; i++) {
-    console.log(caesarCipher(lol, i));
+    console.log(caesarCipher(cipher, i));
 }
 
 
