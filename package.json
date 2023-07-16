@@ -1,0 +1,26 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kraczak/js-learning.git"
+  },
+  "keywords": [
+    "learning",
+    "js"
+  ],
+  "author": "kraczak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kraczak/js-learning/issues"
+  },
+  "homepage": "https://github.com/kraczak/js-learning#readme",
+  "devDependencies": {
+    "eslint": "^8.45.0"
+  }
+}
