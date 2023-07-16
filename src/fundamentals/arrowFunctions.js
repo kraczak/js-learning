@@ -31,10 +31,6 @@ alert(sumV2(1, 2));
 
 
 function ask(question, yes, no) {
-
-
-
-
     if (
         confirm(question)) yes();
     else no();
@@ -42,6 +38,10 @@ function ask(question, yes, no) {
 
 ask(
     "Do you agree?",
-    () => { alert("You agreed."); },
-    () => { alert("You canceled the execution."); }
+    () => {
+        alert("You agreed.");
+    },
+    () => {
+        alert("You canceled the execution.");
+    }
 );
