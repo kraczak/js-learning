@@ -31,7 +31,12 @@ alert(sumV2(1, 2));
 
 
 function ask(question, yes, no) {
-    if (confirm(question)) yes();
+
+
+
+
+    if (
+        confirm(question)) yes();
     else no();
 }
 
