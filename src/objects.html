@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="eng">
+<html lang="en">
 <head>
     <!-- add mocha css, to show results -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
@@ -14,28 +14,36 @@
         // chai has a lot of stuff, let's make assert global
         let assert = chai.assert;
     </script>
-    <title>Tests</title>
+    <title>Objects</title>
 </head>
-
 <body>
-
+<script src="objects/test_objects.js"></script>
 <script>
-    function pow(x, n) {
-        if (n !== Math.round(n)) return NaN;
-        if (n === 0) return 1;
-        if (n < 0) return 1 / pow(x, -n);
-        let result = x;
-        for (let i = 1; i < n; i++) {
-            result *= x;
+    let isEmpty = function (obj) {
+        for (let key in obj) {
+            return false;
         }
-        return result;
+        return true;
     }
+
+    let sumObjectProperties = function (obj) {
+        let sum = 0;
+        for (let key in obj) {
+            sum += isNaN(obj[key]) ? 0 : obj[key];
+        }
+        return sum;
+    }
+
+    let multipleNumeric = (obj) => {
+        for (let key in obj) {
+            if (typeof obj[key] == 'number') {
+                obj[key] *= 2;
+            }
+        }
+        return obj;
+    }
+
 </script>
-
-<!-- the script with tests (describe, it...) -->
-<script src="pow/test_pow.js"></script>
-
-<!-- the element with id="mocha" will contain test results -->
 <div id="mocha"></div>
 
 <!-- run tests! -->
@@ -43,5 +51,4 @@
     mocha.run();
 </script>
 </body>
-
 </html>
