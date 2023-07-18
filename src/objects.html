@@ -10,6 +10,8 @@
     </script>
     <!-- add chai -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/15.2.0/sinon.min.js"></script>
+
     <script>
         // chai has a lot of stuff, let's make assert global
         let assert = chai.assert;
@@ -17,7 +19,9 @@
     <title>Objects</title>
 </head>
 <body>
+<script type="module" src="objects/object_this.js"></script>
 <script src="objects/test_objects.js"></script>
+
 <script>
     let isEmpty = function (obj) {
         for (let key in obj) {
@@ -43,12 +47,49 @@
         return obj;
     }
 
-</script>
-<div id="mocha"></div>
+    let calculator = {
+        read() {
+            let first = +prompt("Enter first number", 0);
+            let second = +prompt("Enter second number", 0);
+            this.first = first;
+            this.second = second;
+        },
 
+        sum() {
+            return this.first + this.second;
+        },
+
+        mul() {
+            return this.first * this.second;
+        }
+    }
+
+
+    let ladder = {
+        step: 0,
+        up() {
+            this.step++;
+            return this;
+        },
+        down() {
+            this.step--;
+            return this;
+        },
+        showStep: function() { // shows the current step
+            alert( this.step );
+            return this
+        }
+    };
+
+
+
+</script>
+
+<div id="mocha"></div>
 <!-- run tests! -->
 <script>
     mocha.run();
 </script>
+
 </body>
 </html>

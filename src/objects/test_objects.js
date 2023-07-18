@@ -1,6 +1,5 @@
 'use strict';
 
-
 describe("isEmpty", function () {
     it("Returns true for an empty object", function () {
         assert.isTrue(isEmpty({}));
@@ -14,8 +13,6 @@ describe("isEmpty", function () {
         assert.isFalse(isEmpty({name: undefined}));
     });
 });
-
-
 describe("sumObjectProperties", function () {
     it("Returns the sum of all object properties", function () {
         assert.equal(sumObjectProperties({a: 1, b: 2, c: 3}), 6);
@@ -33,6 +30,7 @@ describe("sumObjectProperties", function () {
         assert.equal(sumObjectProperties({a: null, b: 1}), 1);
     });
 });
+
 
 describe("multipleNumeric", function () {
     it("Returns the sum of all object properties", function () {
@@ -54,4 +52,82 @@ describe("multipleNumeric", function () {
     it("string is not multiplied", function () {
         assert.deepEqual(multipleNumeric({a: 'null', b: 1}), {a: 'null', b: 2});
     });
+});
+
+describe('calculator', function () {
+
+    context('when 2 and 3 entered', function () {
+        beforeEach(function () {
+            sinon.stub(window, "prompt");
+
+            prompt.onCall(0).returns("2");
+            prompt.onCall(1).returns("3");
+
+            calculator.read();
+        });
+
+        afterEach(function() {
+            prompt.restore();
+        });
+
+        it("reads numbers 2 and 3", function () {
+            assert.equal(calculator.first, 2);
+            assert.equal(calculator.second, 3);
+        });
+
+        it('the sum is 5', function () {
+            assert.equal(calculator.sum(), 5)
+        });
+
+        it('the multiplication is 6', function () {
+            assert.equal(calculator.mul(), 6)
+        });
+    })
+});
+
+
+describe('ladder', function () {
+
+    before(function(){
+        sinon.stub(window, "alert");
+    });
+
+    beforeEach(function () {
+        ladder.step = 0;
+    });
+
+    after(function(){
+       sinon.restore();
+    });
+
+    it('up one step', function () {
+       ladder.up();
+       assert.equal(ladder.step, 1)
+    });
+
+    it('down one step', function () {
+        ladder.down();
+        assert.equal(ladder.step, -1)
+    });
+
+    it('ladder multiple steps up', function () {
+        ladder.up().up().up();
+        assert.equal(ladder.step, 3)
+    });
+
+    it('ladder multiple steps down', function () {
+        ladder.down().down().down();
+        assert.equal(ladder.step, -3)
+    });
+
+    it('ladder showStep() should call alert', function () {
+        ladder.showStep();
+        assert(alert.called);
+    });
+
+    it('ladder multiple steps up and down and showStep should return this', function () {
+        ladder.down().up().showStep().down().showStep().up();
+        assert.equal(ladder.step, 0)
+    });
+
 });
