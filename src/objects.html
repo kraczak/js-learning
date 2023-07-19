@@ -64,6 +64,31 @@
         }
     }
 
+    function Calculator() {
+        this.read = () => {
+            let first = +prompt("Enter first number", 0);
+            let second = +prompt("Enter second number", 0);
+            this.first = first;
+            this.second = second;
+        };
+
+        this.sum = () => {
+            return this.first + this.second;
+        };
+
+        this.mul = () => {
+            return this.first * this.second;
+        }
+    }
+
+    function Accumulator(value) {
+        this.value = value
+
+        this.read = () => {
+            this.value += +prompt("Enter number", 0);
+        }
+    }
+
 
     let ladder = {
         step: 0,

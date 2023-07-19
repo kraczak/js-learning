@@ -66,7 +66,40 @@ describe('calculator', function () {
             calculator.read();
         });
 
-        afterEach(function() {
+        afterEach(function () {
+            prompt.restore();
+        });
+
+        it("reads numbers 2 and 3", function () {
+            assert.equal(calculator.first, 2);
+            assert.equal(calculator.second, 3);
+        });
+
+        it('the sum is 5', function () {
+            assert.equal(calculator.sum(), 5)
+        });
+
+        it('the multiplication is 6', function () {
+            assert.equal(calculator.mul(), 6)
+        });
+    })
+});
+
+
+describe('NewCalculator', function () {
+    let calculator;
+    context('when 2 and 3 entered', function () {
+        beforeEach(function () {
+            sinon.stub(window, "prompt");
+
+            prompt.onCall(0).returns("2");
+            prompt.onCall(1).returns("3");
+
+            calculator = new Calculator();
+            calculator.read();
+        });
+
+        afterEach(function () {
             prompt.restore();
         });
 
@@ -88,7 +121,7 @@ describe('calculator', function () {
 
 describe('ladder', function () {
 
-    before(function(){
+    before(function () {
         sinon.stub(window, "alert");
     });
 
@@ -96,13 +129,13 @@ describe('ladder', function () {
         ladder.step = 0;
     });
 
-    after(function(){
-       sinon.restore();
+    after(function () {
+        sinon.restore();
     });
 
     it('up one step', function () {
-       ladder.up();
-       assert.equal(ladder.step, 1)
+        ladder.up();
+        assert.equal(ladder.step, 1)
     });
 
     it('down one step', function () {
@@ -130,4 +163,44 @@ describe('ladder', function () {
         assert.equal(ladder.step, 0)
     });
 
+});
+
+
+describe("Accumulator", function () {
+    let accumulator;
+    let fakeRead = (value) => {
+        prompt.returns(value);
+        accumulator.read();
+    }
+
+    before(function () {
+        sinon.stub(window, "prompt");
+    });
+
+    beforeEach(function () {
+        accumulator = new Accumulator(5);
+    });
+
+    after(function () {
+        sinon.restore();
+    });
+
+    it("initial value is 5", function () {
+        assert.equal(accumulator.value, 5);
+    });
+
+    it("after reading 0, the value is 5", function () {
+        fakeRead("0");
+        assert.equal(accumulator.value, 5);
+    });
+
+    it("after reading 1, the value is 6", function () {
+        fakeRead("1");
+        assert.equal(accumulator.value, 6);
+    });
+
+    it("after reading -2, the value is 7", function () {
+        fakeRead("-2");
+        assert.equal(accumulator.value, 3);
+    });
 });
