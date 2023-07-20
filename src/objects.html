@@ -114,7 +114,21 @@
 <!-- run tests! -->
 <script>
     mocha.run();
-</script>
+    let toValueUser = {
+        name: "John",
+        money: 1000,
 
+        valueOf() {
+            return this.money;
+        },
+
+        toString() {
+            return `{name: "${this.name}"}`;
+        },
+    }
+
+    alert(toValueUser); // {name: "John", money: 1000, toValue: ƒ, toString: ƒ}
+    alert(+toValueUser); // 1000
+</script>
 </body>
 </html>
