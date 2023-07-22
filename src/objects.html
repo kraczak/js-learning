@@ -19,7 +19,6 @@
     <title>Objects</title>
 </head>
 <body>
-<script type="module" src="objects/object_this.js"></script>
 <script src="objects/test_objects.js"></script>
 
 <script>
@@ -112,23 +111,6 @@
 
 <div id="mocha"></div>
 <!-- run tests! -->
-<script>
-    mocha.run();
-    let toValueUser = {
-        name: "John",
-        money: 1000,
-
-        valueOf() {
-            return this.money;
-        },
-
-        toString() {
-            return `{name: "${this.name}"}`;
-        },
-    }
-
-    alert(toValueUser); // {name: "John", money: 1000, toValue: ƒ, toString: ƒ}
-    alert(+toValueUser); // 1000
-</script>
+<script> mocha.run(); </script>
 </body>
 </html>

@@ -15,15 +15,33 @@
     <script>
         // chai has a lot of stuff, let's make assert global
         let assert = chai.assert;
+
     </script>
-    <title>Objects</title>
+    <title>Data types tests</title>
 </head>
 <body>
-<script type="module" src="data_types/primitives.js"></script>
-<script src="data_types/test_methods_of_primitives.js"></script>
+<script>
 
+    function readNumber(message) {
+        let number = prompt(message, 0);
+        if (isNaN(number) || (!number & number !== 0)) {
+            return readNumber(message);
+        }
+        return +number;
+    }
+
+    function randomNumber(min, max) {
+        return (Math.random() * (max - min) + min);
+    }
+
+    function randomInt(min, max) {
+        return Math.floor(randomNumber(min, max + 1));
+    }
+
+</script>
+<script src="data_types/test_numbers.js"></script>
 <div id="mocha"></div>
 <!-- run tests! -->
-
+<script> mocha.run(); </script>
 </body>
 </html>
