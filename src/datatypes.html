@@ -38,8 +38,79 @@
         return Math.floor(randomNumber(min, max + 1));
     }
 
+    function checkSpam(str) {
+        let lowerStr = str.toLowerCase();
+        return lowerStr.includes('viagra') || lowerStr.includes('xxx');
+    }
+
+    let truncate = (str, maxLength) => (str.length > maxLength) ? str.slice(0, maxLength - 1) + '...' : str;
+
+    function extractCurrencyValue(str) {
+        return +str.slice(1)
+    }
+
+    function getMaxSubSum(arr) {
+        let maxSum = 0;
+        let partialSum = 0;
+        for (let item of arr) {
+            partialSum += item;
+            maxSum = Math.max(maxSum, partialSum);
+            if (partialSum < 0) partialSum = 0;
+        }
+        return maxSum;
+    }
+
+    function camelize(str) {
+        let result = '';
+
+        for (let i = 0; i < str.length; i++) {
+            if (str[i] === '-' && i !== str.length - 1) {
+                ++i;
+                result += str[i].toUpperCase();
+            } else {
+                result += str[i];
+            }
+        }
+        return result
+    }
+
+    function camelizeV2(str) {
+        let split = str.split('-');
+        let result = '';
+        let i = 0;
+        for (let item of split) {
+            if (item !== '-' && i++ !== 0) {
+                result += item[0].toUpperCase() + item.slice(1);
+            } else {
+                result += item;
+            }
+        }
+        return result;
+    }
+
+    function camelizeMap(str) {
+        return str.split('-').map((str, index) => index === 0 ? str : str[0].toUpperCase() + str.slice(1)).join('');
+    }
+
+    function filterRange(arr, a, b) {
+        return arr.filter(item => (a <= item && item <= b));
+    }
+
+    function filterRangeInPlace(arr, a, b) {
+        for (let i = 0; i < arr.length; i++) {
+            let val = arr[i];
+            if (val < a || val > b) {
+                arr.splice(i, 1);
+                i--;
+            }
+        }
+    }
+
+    let copySorted = arr => arr.slice().sort()
+
+
 </script>
-<script src="data_types/test_numbers.js"></script>
+<script src="data_types/test_datatypes.js"></script>
 <div id="mocha"></div>
 <!-- run tests! -->
 <script> mocha.run(); </script>
