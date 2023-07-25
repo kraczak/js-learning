@@ -108,6 +108,59 @@
 
     let copySorted = arr => arr.slice().sort()
 
+    function Calculator() {
+
+        this.methods = {
+            '-': (a, b) => a - b,
+            '+': (a, b) => a + b,
+        };
+
+        this.addMethod = (name, func) => {
+            name = name.trim();
+            this.methods[name] = func;
+        };
+
+        this._getMethodName = str => {
+            for (const method in this.methods) {
+                if (str.includes(method)) return method;
+            }
+        }
+
+        this.calculate = str => {
+            let method = this._getMethodName(str);
+            let split = str.split(method),
+                a = split[0],
+                b = split[1];
+            if (!method || isNaN(a) || isNaN(b)) return NaN;
+            return this.methods[method](+a, +b);
+        };
+    }
+
+    function shuffle(arr) {
+        // does this work the same as Fisher-Yates shuffle?
+        for (let i = 0; i < arr.length; i++) {
+            let tmp = arr[i];
+            let randomIndex = randomInt(i, arr.length - 1);
+            arr[i] = arr[randomIndex];
+            arr[randomIndex] = tmp;
+        }
+    }
+
+    let unique = (arr) => {
+        let set = {};
+        for (let item of arr) {
+            set[item] = true;
+        }
+        return Array.from(Object.keys(set));
+    }
+
+    let groupById = (arr) => {
+        return arr.reduce((acc, item) => {
+            acc[item.id] = item;
+            return acc;
+        }, {});
+    }
+
 
 </script>
 <script src="data_types/test_datatypes.js"></script>

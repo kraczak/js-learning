@@ -355,6 +355,31 @@ describe("Array", function () {
             assert.equal(result, expected);
         });
 
+        it('Group by id', function () {
+            let users = [
+                {id: 'john', name: "John Smith", age: 20},
+                {id: 'ann', name: "Ann Smith", age: 24},
+                {id: 'pete', name: "Pete Peterson", age: 31},
+            ];
+
+            let usersById = groupById(users);
+            console.log(JSON.stringify(usersById, null, 2));
+            let expected = {
+                john: {id: 'john', name: "John Smith", age: 20},
+                ann: {id: 'ann', name: "Ann Smith", age: 24},
+                pete: {id: 'pete', name: "Pete Peterson", age: 31},
+            };
+            assert.deepEqual(usersById, expected);
+        });
+
+        it('Group by id works with empty object as well', function () {
+            let users = [];
+
+            let usersById = groupById(users);
+            console.log(JSON.stringify(usersById, null, 2));
+            let expected = {};
+            assert.deepEqual(usersById, expected);
+        });
     });
 
 });
@@ -434,6 +459,17 @@ describe('Tasks', function () {
             arr.sort((a, b) => b - a);
             assert.deepEqual(arr, expected);
         });
+
+        it('sortByAge', function () {
+            let john = {name: "John", age: 25};
+            let pete = {name: "Pete", age: 30};
+            let mary = {name: "Mary", age: 28};
+
+            let arr = [pete, john, mary];
+            let expected = [john, mary, pete];
+            arr.sort((a, b) => a.age - b.age);
+            assert.deepEqual(arr, expected);
+        });
     });
 
     context('copySorted', function () {
@@ -444,6 +480,117 @@ describe('Tasks', function () {
             let result = copySorted(arr);
             assert.deepEqual(result, expected);
             assert.deepEqual(arr, arrExpected);
+        });
+    });
+
+    context('Calculator', function () {
+
+        let calculator;
+        beforeEach(function () {
+            calculator = new Calculator();
+        });
+
+        it('can add without adding addition method', function () {
+            assert.equal(calculator.calculate('2+2'), 4)
+        });
+
+        it('can subtract without adding addition method', function () {
+            assert.equal(calculator.calculate('2-3'), -1)
+        });
+
+        it('returns NaN if a or b is not numeric', function () {
+            assert.isNaN(calculator.calculate('s-4'));
+            assert.isNaN(calculator.calculate('4-s'));
+        });
+
+        it('returns NaN if result is not a number', function () {
+            assert.isNaN(calculator.calculate('1/0'));
+        });
+
+        it('returns NaN if a or b is NaN', function () {
+            assert.isNaN(calculator.calculate('NaN - 0'));
+        });
+
+        it('adds method of multiplication and can multiply', function () {
+            let symbol = '*';
+            let method = (a, b) => a * b;
+            calculator.addMethod(symbol, method);
+            assert.equal(calculator.methods[symbol], method);
+            assert.equal(calculator.calculate('2*3'), 6);
+        });
+    });
+
+    context('map', function () {
+        it('map list of objects with name property to list of names', function () {
+            let john = {name: "John", age: 25};
+            let pete = {name: "Pete", age: 30};
+            let mary = {name: "Mary", age: 28};
+
+            let users = [john, pete, mary];
+            let expected = ["John", "Pete", "Mary"];
+            let result = users.map(user => user.name);
+            assert.deepEqual(result, expected);
+        });
+
+        it('map list of objects with name and surname property to list of objects with full name property', function () {
+            let john = {name: "John", surname: "Smith", id: 1};
+            let pete = {name: "Pete", surname: "Hunt", id: 2};
+            let mary = {name: "Mary", surname: "Key", id: 3};
+
+            let users = [john, pete, mary];
+            let expected = [
+                {fullName: "John Smith", id: 1},
+                {fullName: "Pete Hunt", id: 2},
+                {fullName: "Mary Key", id: 3}
+
+            ];
+            let result = users.map(user => {
+                return {fullName: `${user.name} ${user.surname}`, id: user.id}
+            });
+            assert.deepEqual(result, expected);
+        });
+    });
+    context('shuffle an array', function () {
+
+        it('shuffles and array', function () {
+            let arr = [5, 11, 13, 217];
+            let expected = arr.reduce((acc, x) => acc + x, 0) / arr.length;
+            let result = arr.map(_ => 0);
+            let n = 10000;
+            for (let i = 0; i < n; i++) {
+                shuffle(arr)
+                for (let j = 0; j < arr.length; j++) {
+                    result[j] += arr[j]
+                }
+            }
+            result = result.map(x => x / n);
+
+            result.map(x => assert.closeTo(x, expected, 0.05 * expected));
+        });
+    });
+
+    context('reduce', function () {
+        it('calculate average age', function () {
+            let john = {name: "John", age: 25};
+            let pete = {name: "Pete", age: 30};
+            let mary = {name: "Mary", age: 29};
+
+            let arr = [john, pete, mary];
+            let expected = (25 + 30 + 29) / 3;
+            let averageAge = arr.reduce((acc, user) => acc + user.age, 0) / arr.length
+            assert.equal(averageAge, expected);
+        });
+    });
+
+
+    context('unique strings from list', function () {
+        it('returns unique strings', function () {
+            let strings = ["Hare", "Krishna", "Hare", "Krishna",
+                "Krishna", "Krishna", "Hare", "Hare", ":-O"
+            ];
+            let expected = ["Hare", "Krishna", ":-O"];
+            let result = unique(strings);
+            assert.deepEqual(result, expected);
         });
     });
 
