@@ -363,7 +363,6 @@ describe("Array", function () {
             ];
 
             let usersById = groupById(users);
-            console.log(JSON.stringify(usersById, null, 2));
             let expected = {
                 john: {id: 'john', name: "John Smith", age: 20},
                 ann: {id: 'ann', name: "Ann Smith", age: 24},
@@ -591,6 +590,26 @@ describe('Tasks', function () {
             let expected = ["Hare", "Krishna", ":-O"];
             let result = unique(strings);
             assert.deepEqual(result, expected);
+        });
+
+        it('returns unique strings using Set', function () {
+            let strings = ["Hare", "Krishna", "Hare", "Krishna",
+                "Krishna", "Krishna", "Hare", "Hare", ":-O"
+            ];
+            let expected = ["Hare", "Krishna", ":-O"];
+            let result = [...new Set(expected)];
+            assert.deepEqual(result, expected);
+        });
+
+        it('returns unique anagrams', function () {
+            let strings = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
+            let expected = ['PAN','hectares','era'];
+            let map = new Map(
+                strings.map(str => [str.toLowerCase().split('').sort().join(''), str])
+            );
+            let result = [...map.values()];
+            assert.deepEqual(result, expected);
+
         });
     });
 
