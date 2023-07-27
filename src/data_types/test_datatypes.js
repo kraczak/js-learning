@@ -603,7 +603,7 @@ describe('Tasks', function () {
 
         it('returns unique anagrams', function () {
             let strings = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
-            let expected = ['PAN','hectares','era'];
+            let expected = ['PAN', 'hectares', 'era'];
             let map = new Map(
                 strings.map(str => [str.toLowerCase().split('').sort().join(''), str])
             );
@@ -611,6 +611,38 @@ describe('Tasks', function () {
             assert.deepEqual(result, expected);
 
         });
+    });
+
+    context('Object.keys()', function () {
+        it('calculate salaries for all employees', function () {
+            let salaries = {
+                "John": 100,
+                "Pete": 300,
+                "Mary": 250
+            };
+            let expected = 650;
+            // method 1
+            let sum = 0;
+            for (let salary of Object.values(salaries)) {
+                sum += salary;
+            }
+            assert.deepEqual(sum, expected);
+
+            // method 2
+            sum = Object.values(salaries).reduce((acc, salary) => acc + salary, 0);
+            assert.deepEqual(sum, expected);
+        });
+
+        it('returns the number of properties in the object', function() {
+            let user = {
+                name: 'John',
+                age: 30
+            };
+            let expected = 2;
+            let result = Object.keys(user).length;
+            assert.equal(result, expected);
+        });
+
     });
 
 });
