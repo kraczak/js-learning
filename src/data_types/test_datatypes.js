@@ -645,4 +645,29 @@ describe('Tasks', function () {
 
     });
 
+    context('Destructing assignment', function () {
+        it('destructs object into variables', function () {
+            let user = { name: "John", years: 30 };
+            let {name, years, isAdmin = false} = user;
+            assert.equal(name, 'John');
+            assert.equal(years, 30);
+            assert.equal(isAdmin, false);
+        });
+
+        it('destructs object to get name of the guy who earns the most', function () {
+            let salaries = {
+                "John": 100,
+                "Pete": 300,
+                "Mary": 250
+            };
+            assert.equal(topSalary(salaries), 'Pete');
+        });
+
+        it('if empty object returns null', function () {
+            let salaries = {};
+            assert.equal(topSalary(salaries), null);
+        });
+
+    });
+
 });
