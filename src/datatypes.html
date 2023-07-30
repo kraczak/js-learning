@@ -173,6 +173,59 @@
         return maxName;
     }
 
+    let getWeekDay = date => ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'][date.getDay()]
+    let getLocalDay = date => date.getDay() === 0 ? 7 : date.getDay();
+
+    let getDateAgo = (date, days) => {
+        date = new Date(date);
+        date.setDate(date.getDate() - days);
+        return date.getDate();
+    }
+
+    let getLastDayOfMonth = (year, month) => {
+        let date = new Date(year, month, 0);
+        return date.getDate();
+    }
+
+    function getSecondsToday() {
+        let date = Date.now();
+        let today = new Date(date);
+        let start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        return Math.round((date - start) / 1000);
+    }
+
+    function getSecondsTillTomorrow() {
+        let today = new Date();
+        let tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+        return Math.round((tomorrow - today) / 1000);
+    }
+
+    function formatDate(date) {
+        let diff = new Date() - date;
+        if (diff < 1000) {
+            return "right now";
+        }
+
+        let sec = diff / 1000;
+        if (sec < 60) {
+            return `${Math.floor(sec)} sec. ago`;
+        }
+
+        let minutes = diff / 60_000;
+        if (minutes < 60) {
+            return `${Math.floor(minutes)} min. ago`;
+        }
+
+        let d = date;
+        d = [
+          d.getDate(),
+          d.getMonth() + 1,
+          d.getFullYear(),
+          d.getHours(),
+          d.getMinutes(),
+        ].map(component => ('0' + component).slice(-2));
+        return d.slice(0, 3).join('.') + ' ' + d.slice(3, 5).join(':');
+    }
 
 
 </script>

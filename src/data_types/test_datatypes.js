@@ -633,7 +633,7 @@ describe('Tasks', function () {
             assert.deepEqual(sum, expected);
         });
 
-        it('returns the number of properties in the object', function() {
+        it('returns the number of properties in the object', function () {
             let user = {
                 name: 'John',
                 age: 30
@@ -647,7 +647,7 @@ describe('Tasks', function () {
 
     context('Destructing assignment', function () {
         it('destructs object into variables', function () {
-            let user = { name: "John", years: 30 };
+            let user = {name: "John", years: 30};
             let {name, years, isAdmin = false} = user;
             assert.equal(name, 'John');
             assert.equal(years, 30);
@@ -666,6 +666,93 @@ describe('Tasks', function () {
         it('if empty object returns null', function () {
             let salaries = {};
             assert.equal(topSalary(salaries), null);
+        });
+    });
+
+    context('Date', function () {
+        it('creates date Feb 20, 2012, 3:12am', function () {
+            let date = new Date(2012, 1, 20, 3, 12);
+            let date2 = new Date("2012-02-20T03:12");
+            assert.equal(date.toString(), 'Mon Feb 20 2012 03:12:00 GMT+0100 (Central European Standard Time)');
+            assert.equal(date2.toString(), 'Mon Feb 20 2012 03:12:00 GMT+0100 (Central European Standard Time)');
+        });
+
+        it('get week day shortcut name from date', function () {
+            let date = new Date(2012, 1, 20, 3, 12);
+            assert.equal(getWeekDay(date), 'MO');
+            date.setDate(date.getDate() + 1);
+            assert.equal(getWeekDay(date), 'TU');
+            date.setDate(date.getDate() + 1);
+            assert.equal(getWeekDay(date), 'WE');
+            date.setDate(date.getDate() + 1);
+            assert.equal(getWeekDay(date), 'TH');
+            date.setDate(date.getDate() + 1);
+            assert.equal(getWeekDay(date), 'FR');
+            date.setDate(date.getDate() + 1);
+            assert.equal(getWeekDay(date), 'SA');
+            date.setDate(date.getDate() + 1);
+            assert.equal(getWeekDay(date), 'SU');
+        });
+
+        it('get european numbers', function () {
+            let date = new Date(2012, 1, 20, 3, 12);
+            assert.equal(getLocalDay(date), 1);
+            date.setDate(date.getDate() + 1);
+            assert.equal(getLocalDay(date), 2);
+            date.setDate(date.getDate() + 1);
+            assert.equal(getLocalDay(date), 3);
+            date.setDate(date.getDate() + 1);
+            assert.equal(getLocalDay(date), 4);
+            date.setDate(date.getDate() + 1);
+            assert.equal(getLocalDay(date), 5);
+            date.setDate(date.getDate() + 1);
+            assert.equal(getLocalDay(date), 6);
+            date.setDate(date.getDate() + 1);
+            assert.equal(getLocalDay(date), 7);
+        });
+
+        it('get date [days] ago', function () {
+            let date = new Date(2015, 0, 2);
+            console.log(date.toString());
+            assert.equal(getDateAgo(date, 1), 1);
+            assert.equal(getDateAgo(date, 2), 31);
+            assert.equal(getDateAgo(date, 365), 2);
+        });
+        it('get date [days] ago should not modify initial date', function () {
+            let date = new Date(2015, 0, 2);
+            let stringRepr = date.toString();
+            getDateAgo(date, 1);
+            assert.equal(date.toString(), stringRepr);
+        });
+
+        it('get last day of month 2000-01 -> 31', function () {
+            assert.equal(getLastDayOfMonth(2012, 1), 31);
+        });
+
+        it('get last day of month 2012-02 -> 29', function () {
+            assert.equal(getLastDayOfMonth(2012, 2), 29);
+        });
+
+        it('get last day of month 2013-02 -> 29', function () {
+            assert.equal(getLastDayOfMonth(2013, 2), 28);
+        });
+        describe('formatDate', function () {
+            it('date from less than 1 second ago -> right now', function () {
+                assert.equal(formatDate(new Date(new Date - 1)), "right now");
+            });
+
+            it('date from less than 1 minute ago -> 30 seconds ago', function () {
+                assert.equal(formatDate(new Date(new Date - 30 * 1000)), "30 sec. ago");
+            });
+
+            it('date from less than 1 hour ago -> 5 minutes ago', function () {
+                assert.equal(formatDate(new Date(new Date - 5 * 60 * 1000)), "5 min. ago");
+            });
+
+            it('date from more than 1 hour ago then DD.MM.YY HH:mm -> 31.12.16 20:00', function () {
+                let date = new Date(2016, 11, 31, 20, 0);
+                assert.equal(formatDate(date), "31.12.16 20:00");
+            });
         });
 
     });
