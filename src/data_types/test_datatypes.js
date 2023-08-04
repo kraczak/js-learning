@@ -757,4 +757,44 @@ describe('Tasks', function () {
 
     });
 
+    context('JSON', function () {
+        it('dumps and loads object', function () {
+            let user = {
+                name: "John Smith",
+                age: 35
+            };
+            let jsonUser = JSON.stringify(user);
+            let parsedUser = JSON.parse(jsonUser);
+            assert.deepEqual(user, parsedUser);
+        });
+
+        it('Exclude back references', function () {
+            let room = {
+                number: 23
+            };
+
+            let meetup = {
+                title: "Conference",
+                occupiedBy: [{name: "John"}, {name: "Alice"}],
+                place: room
+            };
+
+            let expected = {
+                title: "Conference",
+                occupiedBy: [{name: "John"}, {name: "Alice"}],
+                place: {number: 23}
+            };
+
+            // circular references
+            room.occupiedBy = meetup;
+            meetup.self = meetup;
+            let resultJson = JSON.stringify(meetup, (key, value) => {
+                return ((key !== '' && value === meetup)) ? undefined : value
+            });
+            console.log(resultJson);
+            let result = JSON.parse(resultJson);
+            assert.deepEqual(expected, result);
+        });
+    });
+
 });
