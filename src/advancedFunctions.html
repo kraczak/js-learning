@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- add mocha css, to show results -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
+    <!-- add mocha framework code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+    <script>
+        mocha.setup('bdd'); // minimal setup
+    </script>
+    <!-- add chai -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/15.2.0/sinon.min.js"></script>
+
+    <script>
+        // chai has a lot of stuff, let's make assert global
+        let assert = chai.assert;
+
+    </script>
+    <title>Data types tests</title>
+</head>
+<body>
+
+<script>
+    function recursivePow(a, n) {
+        if (n < 0) return recursivePow(1 / a, -n);
+        if (n === 0) return 1;
+        return (n === 1) ? a : a * recursivePow(a, n - 1);
+    };
+
+    function recursiveSumSalaries(obj) {
+        if (Array.isArray(obj)) {
+            return obj.reduce((prev, current) => prev + current.salary, 0);
+        } else {
+            let sum = 0;
+            for (let subDepartment of Object.values(obj)) {
+                sum += recursiveSumSalaries(subDepartment);
+            }
+            return sum;
+        }
+    };
+
+    let sumTo = a => (a === 0) ? 0 : a + sumTo(a - 1);
+    let mathSumTo = a => (a + 1) * a / 2;
+
+    let factorial = n => (n <= 1) ? 1 : n * factorial(n - 1);
+    let fibonacci = n => n <= 1 ? n : fibonacci(n - 2) + fibonacci(n - 1)
+
+    let listToArray = list => (!list.next) ?  [list.value] : [list.value].concat(listToArray(list.next));
+    let reverseListToArray = list => (!list.next) ? [list.value]: reverseListToArray(list.next).concat([list.value]);
+
+
+    let listToArrayLoop = list => {
+        let reference = list;
+        let result = [];
+        while (reference) {
+            result.push(reference.value);
+            reference = reference.next;
+        }
+        return result;
+    };
+
+    let reversedListToArrayLoop = list => {
+        let reference = list;
+        let result = [];
+        while (reference) {
+            result.push(reference.value);
+            reference = reference.next;
+        }
+        return result.reverse();
+    };
+
+</script>
+
+<script src="advanced_functions/test_advanced_functions.js"></script>
+<div id="mocha"></div>
+<!-- run tests! -->
+<script> mocha.run(); </script>
+</body>
+</html>
