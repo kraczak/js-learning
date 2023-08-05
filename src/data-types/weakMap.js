@@ -1,4 +1,4 @@
-import {slug} from "mocha/lib/utils.js";
+'use strict';
 
 let messages = [
     {text: "Hello", from: "John"},

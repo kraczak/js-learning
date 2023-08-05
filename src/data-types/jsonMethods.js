@@ -28,7 +28,7 @@ try {
 // replacer function can control (include/exclude/map) values
 console.log(JSON.stringify(
     meetup,
-    (key, val) => (key == 'occupiedBy') ? undefined : val
+    (key, val) => (key === 'occupiedBy') ? undefined : val
 ))
 
 let user = {

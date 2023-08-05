@@ -257,7 +257,7 @@ describe("Array", function () {
                 {id: 3, name: "Mary"}
             ];
 
-            let user = users.find(item => item.name == name);
+            let user = users.find(item => item.name === name);
             assert.deepEqual(user, {id: 1, name: "John"});
         });
 
@@ -265,7 +265,7 @@ describe("Array", function () {
             let name = 'John';
             let users = [{name: "Pete"}, {name: "Mary"}];
             let expected = undefined;
-            let user = users.find(item => item.name == name);
+            let user = users.find(item => item.name === name);
             assert.equal(user, expected);
         });
     });
@@ -274,7 +274,7 @@ describe("Array", function () {
         it('filters even numbers from [0, 1, 2, 3, 4, 5] and returns [0, 2, 4]', function () {
             let arr = Array.from(Array(6).keys());
             let expected = [0, 2, 4];
-            let result = arr.filter(item => item % 2 == 0);
+            let result = arr.filter(item => item % 2 === 0);
             assert.deepEqual(result, expected);
         });
 
@@ -286,7 +286,7 @@ describe("Array", function () {
                 {id: 4, name: "John"}
             ];
             let expected = [{id: 1, name: "John"}, {id: 4, name: "John"}]
-            let result = users.filter(item => item.name == "John");
+            let result = users.filter(item => item.name === "John");
             assert.deepEqual(result, expected);
         });
     });
@@ -312,7 +312,7 @@ describe("Array", function () {
                 {id: 3, name: "Mama"},
                 {id: 4, name: "Joe"}
             ]
-            let result = users.map(item => (item.name == "John") ? {id: item.id, name: "Joe"} : {
+            let result = users.map(item => (item.name === "John") ? {id: item.id, name: "Joe"} : {
                 id: item.id,
                 name: "Mama"
             });
@@ -597,7 +597,7 @@ describe('Tasks', function () {
                 "Krishna", "Krishna", "Hare", "Hare", ":-O"
             ];
             let expected = ["Hare", "Krishna", ":-O"];
-            let result = [...new Set(expected)];
+            let result = [...new Set(strings)];
             assert.deepEqual(result, expected);
         });
 

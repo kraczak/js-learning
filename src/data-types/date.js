@@ -8,6 +8,3 @@ date0.setSeconds(date0.getSeconds() + 60)
 console.log(date0);
 
 console.log(`Whole process took ${Date.now() - s} ms`);
-
-
-;

@@ -26,7 +26,7 @@
         if (n < 0) return recursivePow(1 / a, -n);
         if (n === 0) return 1;
         return (n === 1) ? a : a * recursivePow(a, n - 1);
-    };
+    }
 
     function recursiveSumSalaries(obj) {
         if (Array.isArray(obj)) {
@@ -38,7 +38,7 @@
             }
             return sum;
         }
-    };
+    }
 
     let sumTo = a => (a === 0) ? 0 : a + sumTo(a - 1);
     let mathSumTo = a => (a + 1) * a / 2;
@@ -72,7 +72,7 @@
 
 </script>
 
-<script src="advanced_functions/test_advanced_functions.js"></script>
+<script src="advanced-functions/test_advanced_functions.js"></script>
 <div id="mocha"></div>
 <!-- run tests! -->
 <script> mocha.run(); </script>
