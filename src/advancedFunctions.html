@@ -70,9 +70,32 @@
         return result.reverse();
     };
 
+    // closures with arrow functions are pretty
+    let sum = (a) => b => a + b;
+    function sumV2(a) {
+        return function(b) {
+            return a + b;
+        }
+    }
+
+    let inBetween = (a, b) => x => (x >= a && x <= b);
+    function inBetweenV2(a, b) {
+        return function(x) {
+            return (x >= a && x <= b);
+        }
+    }
+
+    let inArray = args => x => args.includes(x);
+
+    function inArrayV2(args) {
+        return function(x) {
+            return args.includes(x);
+        }
+    }
+
 </script>
 
-<script src="advanced-functions/test_advanced_functions.js"></script>
+<script src="advanced-functions/testAdvancedFunctions.js"></script>
 <div id="mocha"></div>
 <!-- run tests! -->
 <script> mocha.run(); </script>

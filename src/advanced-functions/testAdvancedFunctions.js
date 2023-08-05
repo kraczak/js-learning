@@ -32,7 +32,7 @@ describe("advancedFunctions", function () {
                     }
                 };
                 let salariesSum = recursiveSumSalaries(company);
-                let expected = 7700;
+                const expected = 7700;
                 assert.equal(salariesSum, expected);
             });
         });
@@ -112,7 +112,7 @@ describe("advancedFunctions", function () {
                             }
                         }
                     };
-                    let expected = [1, 2, 3, 4];
+                    const expected = [1, 2, 3, 4];
                     assert.deepEqual(listToArray(list), expected);
                 });
 
@@ -130,7 +130,7 @@ describe("advancedFunctions", function () {
                             }
                         }
                     };
-                    let expected = [1, 2, 3, 4];
+                    const expected = [1, 2, 3, 4];
                     assert.deepEqual(listToArrayLoop(list), expected);
                 });
 
@@ -149,7 +149,7 @@ describe("advancedFunctions", function () {
                             }
                         }
                     };
-                    let expected = [4, 3, 2, 1];
+                    const expected = [4, 3, 2, 1];
                     assert.deepEqual(reverseListToArray(list), expected);
                 });
 
@@ -167,7 +167,7 @@ describe("advancedFunctions", function () {
                             }
                         }
                     };
-                    let expected = [4, 3, 2, 1];
+                    const expected = [4, 3, 2, 1];
                     assert.deepEqual(reversedListToArrayLoop(list), expected);
                 });
             });
@@ -178,11 +178,61 @@ describe("advancedFunctions", function () {
 
     });
 
-    context('Rest parameters and spread syntax', function () {
-
-    });
-
     context('Variable scope, closure', function () {
+        it('sum(1)(2) = 3', () => {
+           assert.equal(sum(1)(2), 3);
+        });
+
+        it('sum(5)(-1) = 4', () => {
+            assert.equal(sum(5)(-1), 4);
+        });
+
+        it('sumV2(1)(2) = 3', () => {
+            assert.equal(sumV2(1)(2), 3);
+        });
+
+        it('sumV2(5)(-1) = 4', () => {
+            assert.equal(sumV2(5)(-1), 4);
+        });
+
+        it('inBetween(3, 4) leaves only [3, 4]', () => {
+            let arr = [1, 2, 3, 4, 5];
+            let expected = [3, 4];
+            assert.deepEqual(arr.filter(inBetween(3, 4)), expected);
+        });
+
+        it('inBetween(3, 6) leaves only [3, 4, 5, 6]', () => {
+            let arr = [1, 2, 3, 4, 5, 6, 7];
+            let expected = [3, 4, 5, 6];
+            assert.deepEqual(arr.filter(inBetween(3, 6)), expected);
+        });
+
+        it('inBetweenV2(3, 4) leaves only [3, 4]', () => {
+            let arr = [1, 2, 3, 4, 5];
+            let expected = [3, 4];
+            assert.deepEqual(arr.filter(inBetweenV2(3, 4)), expected);
+        });
+
+        it('inBetweenV2(3, 6) leaves only [3, 4, 5, 6]', () => {
+            let arr = [1, 2, 3, 4, 5, 6, 7];
+            let expected = [3, 4, 5, 6];
+            assert.deepEqual(arr.filter(inBetweenV2(3, 6)), expected);
+        });
+
+        it('inArray([1, 2, 10]) leaves only [1, 2, 10, 10]', () => {
+            let arr = [1, 2, 3, 4, 5, 6, 7, 10, 10];
+            let filter = [1, 2, 10];
+            let expected = [1, 2, 10, 10];
+            assert.deepEqual(arr.filter(inArray(filter)), expected);
+        });
+
+        it('inArrayV2([1, 2, 10]) leaves only [1, 2, 10, 10]', () => {
+            let arr = [1, 2, 3, 4, 5, 6, 7, 10, 10];
+            let filter = [1, 2, 10];
+            let expected = [1, 2, 10, 10];
+            assert.deepEqual(arr.filter(inArrayV2(filter)), expected);
+        });
+
 
     });
 
