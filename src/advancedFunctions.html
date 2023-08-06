@@ -174,10 +174,40 @@
         }, 100);
     }
 
-    printNumbersTimeout(5, 10);
-    printNumbersInterval(5, 10);
+    // printNumbersTimeout(5, 10);
+    // printNumbersInterval(5, 10);
+    let hash = (...args) => args.join(',');
+    function cachingDecorator(func) {
+        let cache = new Map();
 
-    // setInterval(printNumbers, 100, 5, 10);
+        return function(...args) {
+            let key = hash(args);
+            if (cache.has(key)) {
+                return cache.get(key);
+            }
+            let result = func.call(this, ...args);
+            // alternatively we could use apply method, which is faster but works only for array-like args
+            // let result = func.apply(this, args);
+            cache.set(key, result);
+            return result
+        }
+    }
+
+    let worker = {
+        someMethod() {
+            return 1;
+        },
+
+        slow(min, max) {
+            console.log(`Called with (${min}, ${max})` );
+            return min + max;
+        }
+    };
+
+    worker.slow = cachingDecorator(worker.slow); // now make it caching
+
+    console.log( worker.slow(2, 2) ); // works
+    console.log( worker.slow(2, 2) );
 
 
 </script>
