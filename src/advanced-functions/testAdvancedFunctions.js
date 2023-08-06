@@ -97,6 +97,26 @@ describe("advancedFunctions", function () {
                 });
 
             });
+
+            context('fibonacciV2', function () {
+                it('fibonacciV2(0) = 0', function () {
+                    assert.equal(fibonacciV2(0), 0);
+                });
+                it('fibonacciV2(1) = 1', function () {
+                    assert.equal(fibonacciV2(1), 1);
+                });
+                it('fibonacciV2(3) = 2', function () {
+                    assert.equal(fibonacciV2(3), 2);
+                });
+                it('fibonacciV2(7) = 13', function () {
+                    assert.equal(fibonacciV2(7), 13);
+                });
+                it('fibonacciV2(70) = 190392490709135', function () {
+                    assert.equal(fibonacciV2(70), 190392490709135);
+                });
+
+            });
+
             context('single-linked list', function () {
                 it('single-linked list transformed to array - recursive', function(){
                     let list = {
@@ -236,20 +256,52 @@ describe("advancedFunctions", function () {
 
     });
 
-    context('The old "var"', function () {
-
-    });
-
-    context('Global object', function () {
-
-    });
-
     context('Function object, NFE', function () {
+        it('counter() returns a number 1', () => {
+            let counter = makeCounter();
+            let expected = 1;
+            assert.equal(counter(), expected);
+        });
+        it('counter.decrease() returns a number -1', () => {
+            let counter = makeCounter();
+            let expected = -1;
+            assert.equal(counter.decrease(), expected);
+        });
+        it('counter.set(10) should set count to be 10', () => {
+            let counter = makeCounter();
+            let expected = 10;
+            assert.equal(counter.set(10), expected);
+        });
+
+        it('funnySum(1)(2) = 3', () => {
+            let sum = funnySum(1)(2);
+            let expected = 3;
+            assert.equal(sum, expected);
+        });
+        it('funnySum(1)(2)(3) = 6', () => {
+            let sum = funnySum(1)(2)(3);
+            let expected = 6;
+            assert.equal(sum, expected, 'lol');
+        });
 
     });
 
     context('The "new Function" syntax', function () {
+        it('notSafeSum(1, 2) = 3', () => {
+            assert.equal(notSafeSum(1, 2), 3);
+        });
 
+        it('notSafeSum(5, -1) = 4', () => {
+            assert.equal(notSafeSum(5, -1), 4);
+        });
+
+        it('notSafeSum(1, 2) = 3', () => {
+            assert.equal(notSafeSum(1, 2), 3);
+        });
+
+        it('notSafeSum(5, -1) = 4', () => {
+            assert.equal(notSafeSum(5, -1), 4);
+        });
     });
 
     context('Scheduling: setTimeout and setInterval', function () {

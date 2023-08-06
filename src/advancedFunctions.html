@@ -46,8 +46,8 @@
     let factorial = n => (n <= 1) ? 1 : n * factorial(n - 1);
     let fibonacci = n => n <= 1 ? n : fibonacci(n - 2) + fibonacci(n - 1)
 
-    let listToArray = list => (!list.next) ?  [list.value] : [list.value].concat(listToArray(list.next));
-    let reverseListToArray = list => (!list.next) ? [list.value]: reverseListToArray(list.next).concat([list.value]);
+    let listToArray = list => (!list.next) ? [list.value] : [list.value].concat(listToArray(list.next));
+    let reverseListToArray = list => (!list.next) ? [list.value] : reverseListToArray(list.next).concat([list.value]);
 
 
     let listToArrayLoop = list => {
@@ -72,15 +72,17 @@
 
     // closures with arrow functions are pretty
     let sum = (a) => b => a + b;
+
     function sumV2(a) {
-        return function(b) {
+        return function (b) {
             return a + b;
         }
     }
 
     let inBetween = (a, b) => x => (x >= a && x <= b);
+
     function inBetweenV2(a, b) {
-        return function(x) {
+        return function (x) {
             return (x >= a && x <= b);
         }
     }
@@ -88,10 +90,95 @@
     let inArray = args => x => args.includes(x);
 
     function inArrayV2(args) {
-        return function(x) {
+        return function (x) {
             return args.includes(x);
         }
     }
+
+    // not necessarily nice solution, but wanted to have some fun
+    function fibonacciV2(n) {
+
+        if (n <= 1) return n;
+
+        let first = fibonacciV2.map.get(Math.max(0, n - 2)) || fibonacciV2(n - 3) + fibonacciV2(n - 4)
+        let second = fibonacciV2.map.get(Math.max(0, n - 1)) || fibonacciV2(n - 2) + fibonacciV2(n - 3)
+        let result = first + second;
+        fibonacciV2.map.set(n, result)
+
+        return result;
+    }
+
+    fibonacciV2.map = new Map();
+    fibonacciV2.map.set(0, 0)
+    fibonacciV2.map.set(1, 1)
+
+
+    function makeCounter() {
+        let count = 0;
+
+        function counter() {
+            return ++count;
+        }
+
+        counter.set = value => count = value;
+        counter.decrease = () => --count;
+
+        return counter;
+    }
+
+    function funnySum(a) {
+        let sum = a;
+
+        function add(value) {
+            sum += value;
+            return add;
+        }
+
+        add.valueOf = () => `${sum}`;
+        return add;
+    }
+
+    // does not see variables in current scope, only the globals
+    let notSafeSum = new Function('a', 'b', 'return a + b');
+    new Function('a', 'b', 'return a + b'); // basic syntax
+    new Function('a,b', 'return a + b'); // comma-separated
+    new Function('a , b', 'return a + b'); // comma-separated with spaces
+
+    async function sayHi(phrase, who) {
+        if (who === 'lol') {
+            console.log('waiting for 1 sec')
+            await new Promise(r => setTimeout(r, 10000));
+        }
+        alert(phrase + ', ' + who);
+    }
+
+    function printNumbersTimeout(from, to) {
+        let current = from;
+        setTimeout(function go() {
+            console.log(`${current} at ${Date.now()}`)
+            if (current < to) {
+                setTimeout(go, 100)
+            }
+            current++;
+        }, 100);
+    }
+
+    function printNumbersInterval(from, to) {
+        let current = from;
+        let intervalId = setInterval(function go() {
+            console.log(`${current} at ${Date.now()}`)
+            if (current === to) {
+                clearInterval(intervalId);
+            }
+            current++;
+        }, 100);
+    }
+
+    printNumbersTimeout(5, 10);
+    printNumbersInterval(5, 10);
+
+    // setInterval(printNumbers, 100, 5, 10);
+
 
 </script>
 
