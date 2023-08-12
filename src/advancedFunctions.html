@@ -260,6 +260,53 @@
         return wrapper;
     }
 
+    // function binding
+    function mul(a, b) {
+        return a * b;
+    }
+    // in this example works pretty the same as partial function in Python
+    let double = mul.bind(null, 2);
+
+    function partial(func, ...argsBound) {
+        // if we wanted to make a partial that works for methods
+        return function(...args) {
+            return func.call(this, ...argsBound, ...args);
+        }
+    }
+
+    let user = {
+        firstName: "John",
+        say(time, phrase) {
+            console.log(`[${time}] ${this.firstName}: ${phrase}!`);
+        }
+    };
+
+    // add a partial method with fixed time
+    user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
+    user.sayNow("Lol");
+
+    function askPassword(ok, fail) {
+        let password = prompt("Password?", '');
+        if (password == "rockstar") ok();
+        else fail();
+    }
+
+    user = {
+        name: 'John',
+
+        loginOk() {
+            alert(`${this.name} logged in`);
+        },
+
+        loginFail() {
+            alert(`${this.name} failed to log in`);
+        },
+
+    };
+
+    askPassword(user.loginOk.bind(user), user.loginFail.bind(user));
+
+
 </script>
 
 <script src="advanced-functions/testAdvancedFunctions.js"></script>

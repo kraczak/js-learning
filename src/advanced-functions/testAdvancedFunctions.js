@@ -342,12 +342,32 @@ describe("advancedFunctions", function () {
             });
         });
 
-
-
     });
 
     context('Function binding', function () {
 
+        it('bind user to function', () => {
+            const expectedName = 'joanna';
+            let user = {
+                firstName: 'John',
+                sayHi() {
+                    return this.firstName;
+                }
+            };
+
+            let sayHi = user.sayHi.bind(user); // (*)
+            user.firstName = expectedName;
+            assert.equal(sayHi(), expectedName)
+
+// can run it without an object
+            sayHi(); // Hello, John!
+
+
+        });
+
+        it('double = mul.bind(null, 2) multiples times 2', () => {
+            assert.equal(double(2), 4);
+        });
     });
 
     context('Arrow functions revisited', function () {
