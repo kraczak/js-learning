@@ -209,6 +209,56 @@
     console.log( worker.slow(2, 2) ); // works
     console.log( worker.slow(2, 2) );
 
+    function spy(func) {
+        let calcHash = (args) => args.join(',');
+        function wrapper(...args) {
+            let hash = calcHash(args);
+            wrapper.calls[hash] = ++wrapper.calls[hash] || 1;
+            return func.apply(this, args);
+        }
+        wrapper.calls = new Map();
+        return wrapper;
+    }
+
+    function delay(func, ms) {
+        return function() {
+            setTimeout(() => func.apply(this, arguments), ms)
+        }
+    }
+
+    function debounce(func, ms){
+        // runs function at most once every [ms] and returns value for last arguments
+        let lastCalled;
+        return function() {
+            clearTimeout(lastCalled);
+            lastCalled = setTimeout(() => func.apply(this, arguments), ms)
+        }
+    }
+
+    function throttle(func, ms) {
+        let isThrottled = false,
+            savedArgs,
+            savedThis;
+        function wrapper() {
+            if (isThrottled) {
+                savedArgs = arguments;
+                savedThis = this;
+                return;
+            }
+            isThrottled = true;
+
+            console.log(func.apply(this, arguments));
+
+            setTimeout(() => {
+                isThrottled = false;
+                if (savedArgs) {
+                    wrapper.apply(savedThis, savedArgs);
+                    savedArgs = savedThis = null;
+                }
+            }, ms);
+        }
+        return wrapper;
+    }
 
 </script>
 

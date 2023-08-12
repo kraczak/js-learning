@@ -118,7 +118,7 @@ describe("advancedFunctions", function () {
             });
 
             context('single-linked list', function () {
-                it('single-linked list transformed to array - recursive', function(){
+                it('single-linked list transformed to array - recursive', function () {
                     let list = {
                         value: 1,
                         next: {
@@ -136,7 +136,7 @@ describe("advancedFunctions", function () {
                     assert.deepEqual(listToArray(list), expected);
                 });
 
-                it('single-linked list transformed to array - loop based', function(){
+                it('single-linked list transformed to array - loop based', function () {
                     let list = {
                         value: 1,
                         next: {
@@ -155,7 +155,7 @@ describe("advancedFunctions", function () {
                 });
 
 
-                it('reversed single-linked list transformed to array - recursive', function(){
+                it('reversed single-linked list transformed to array - recursive', function () {
                     let list = {
                         value: 1,
                         next: {
@@ -173,7 +173,7 @@ describe("advancedFunctions", function () {
                     assert.deepEqual(reverseListToArray(list), expected);
                 });
 
-                it('reversed single-linked list transformed to array - loop based', function(){
+                it('reversed single-linked list transformed to array - loop based', function () {
                     let list = {
                         value: 1,
                         next: {
@@ -200,7 +200,7 @@ describe("advancedFunctions", function () {
 
     context('Variable scope, closure', function () {
         it('sum(1)(2) = 3', () => {
-           assert.equal(sum(1)(2), 3);
+            assert.equal(sum(1)(2), 3);
         });
 
         it('sum(5)(-1) = 4', () => {
@@ -304,11 +304,45 @@ describe("advancedFunctions", function () {
         });
     });
 
-    context('Scheduling: setTimeout and setInterval', function () {
-
-    });
-
     context('Decorators and forwarding, call/apply', function () {
+        context('spy', () => {
+            let work = (a, b) => a + b;
+
+            it('spy on work registers 2 calls with arguments 1,2', () => {
+                let args = [1 ,2];
+                let argsHash = args.join(',');
+                let expected = 2;
+                let spiedWork = spy(work);
+
+                spiedWork(...args);
+                spiedWork(...args);
+
+                assert.equal(spiedWork.calls[argsHash], expected);
+
+            });
+
+            it('spy on work registers 2 calls with 1,2 and 3 calls with 3,4', () => {
+                let args12 = [1 ,2];
+                let args34 = [3, 4];
+                let args12Hash = args12.join(',');
+                let args34Hash = args34.join(',');
+                let expected12 = 2;
+                let expected34 = 3;
+                let spiedWork = spy(work);
+
+                spiedWork(...args12);
+                spiedWork(...args12);
+                spiedWork(...args34);
+                spiedWork(...args34);
+                spiedWork(...args34);
+
+                assert.equal(spiedWork.calls[args12Hash], expected12);
+                assert.equal(spiedWork.calls[args34Hash], expected34);
+
+            });
+        });
+
+
 
     });
 
