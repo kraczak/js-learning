@@ -228,6 +228,7 @@
 
     function debounce(func, ms){
         // runs function at most once every [ms] and returns value for last arguments
+        // it delays execution by [ms] every time a function is called and runs it with the last argument
         let lastCalled;
         return function() {
             clearTimeout(lastCalled);
@@ -236,6 +237,8 @@
     }
 
     function throttle(func, ms) {
+        // it allows to run function func only once every ms
+        // if function is called during "throttle" time it will be run after "throttle" time expires, with last arguments
         let isThrottled = false,
             savedArgs,
             savedThis;

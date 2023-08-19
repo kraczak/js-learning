@@ -370,9 +370,4 @@ describe("advancedFunctions", function () {
         });
     });
 
-    context('Arrow functions revisited', function () {
-
-    });
-
-
 });
