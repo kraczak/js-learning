@@ -106,13 +106,54 @@ describe("propertyFlags", function () {
     });
 
     context('Property getters and setters', function () {
-        let user = {
-            name: "John", surname: "Smith",
-            get fullName() {
-                return `${this.name} ${this.surname}`
+        it('gets full name as concat of name and surname', () => {
+            let user = {
+                name: "John", surname: "Smith",
+                get fullName() {
+                    return `${this.name} ${this.surname}`
+                }
             }
-        }
-        const expected = "John Smith";
-        assert.equal(user.fullName, expected);
+            const expected = "John Smith";
+            assert.equal(user.fullName, expected);
+        });
+
+        it('sets name and surname as from full name', () => {
+            let user = {
+                name: "Xxxx", surname: "Yyyy",
+                get fullName() {
+                    return `${this.name} ${this.surname}`
+                },
+                set fullName(name) {
+                    [this.name, this.surname] = name.split(' ');
+                }
+            }
+            const expectedName = "John";
+            const expectedSurname = "Smith";
+            const surname = `${expectedName} ${expectedSurname}`;
+
+            user.fullName = surname;
+            assert.equal(user.fullName, surname);
+            assert.equal(user.name, expectedName);
+            assert.equal(user.surname, expectedSurname);
+        });
+
+        it('sets name and surname as from full name', () => {
+            function User(name, birthday) {
+                this.name = name;
+                this.birthday = birthday;
+
+                // age is calculated from the current date and birthday
+                Object.defineProperty(this, "age", {
+                    get() {
+                        let todayYear = new Date().getFullYear();
+                        return todayYear - this.birthday.getFullYear();
+                    }
+                });
+            }
+            let user = new User("John", new Date(2000, 1, 1));
+            const expectedAge = 23;
+            assert.equal(user.age, expectedAge);
+        });
+
     });
 });
