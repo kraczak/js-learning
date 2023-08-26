@@ -124,7 +124,7 @@ describe("Prototypes, inheritance", function () {
     });
 
     context('Native prototypes', function () {
-        it('', () => {
+        it('defer function runs after half a second', () => {
 
         });
     });
