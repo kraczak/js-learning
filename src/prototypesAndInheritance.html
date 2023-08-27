@@ -22,14 +22,15 @@
     <script>
 
         Function.prototype.defer = function defer(ms) {
-            setTimeout(this, ms);
+            let f = this;
+            return (...args) => {
+                setTimeout(() => f.apply(this, args), ms);
+            }
         }
 
         const sum = function (a, b) {
             return a + b;
         }
-
-        sum.defer(1000)(2, 5);
 
     </script>
 </head>

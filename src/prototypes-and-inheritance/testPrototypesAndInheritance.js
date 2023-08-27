@@ -57,13 +57,13 @@ describe("Prototypes, inheritance", function () {
 
 
         it('searching algorithm https://javascript.info/task/search-algorithm', () => {
-            let head = { glasses: 1 };
+            let head = {glasses: 1};
 
-            let table = { pen: 3, __proto__: head };
+            let table = {pen: 3, __proto__: head};
 
-            let bed = { sheet: 1, pillow: 2, __proto__: table };
+            let bed = {sheet: 1, pillow: 2, __proto__: table};
 
-            let pockets = { money: 2000, __proto__: bed };
+            let pockets = {money: 2000, __proto__: bed};
             assert.equal(pockets.pen, 3);
             assert.equal(bed.glasses, 1);
             assert.equal(table.money, undefined);
@@ -104,6 +104,7 @@ describe("Prototypes, inheritance", function () {
             function Test() {
                 this.test = "test";
             }
+
             let test = new Test()
             let testFromConstructor = new test.constructor();
             assert.deepEqual(test, testFromConstructor);
@@ -114,6 +115,7 @@ describe("Prototypes, inheritance", function () {
             function Test() {
                 this.test = "test";
             }
+
             Test.prototype = {};
             let test2 = new Object("lol")
             let test = new Test()
@@ -123,14 +125,43 @@ describe("Prototypes, inheritance", function () {
         });
     });
 
-    context('Native prototypes', function () {
-        it('defer function runs after half a second', () => {
-
-        });
-    });
     context('Prototype methods, objects without __proto__', function () {
-        it('', () => {
+        it('true clone with Object.create', () => {
+            let everything = {
+                canDoAnything: true
+            }
+            let obj = {
+                a: true,
+                walk: function () {
+                    return "walked 2 miles";
+                },
+                __proto__: everything
+            };
+            let clone = Object.create(
+                Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj)
+            );
+            assert.deepEqual(obj, clone);
+            assert.equal(obj.walk, clone.walk);
+            assert.equal(obj.a, true);
+            assert.equal(obj.a, clone.a);
+            assert.equal(obj.canDoAnything, true);
+            assert.equal(obj.canDoAnything, clone.canDoAnything);
+        });
 
+        it('add toString to null object', () => {
+            let dictionary = Object.create(null, {
+                toString: { // define toString property
+                    value() { // the value is a function
+                        return Object.keys(this).join();
+                    }
+                }
+            });
+
+            dictionary.apple = "Apple";
+            dictionary.__proto__ = "test";
+            for (let key in dictionary) {
+                assert.notEqual(key, 'toString');
+            }
         });
     });
 });
