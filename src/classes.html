@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- add mocha css, to show results -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
+    <!-- add mocha framework code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+    <script>
+        mocha.setup('bdd'); // minimal setup
+    </script>
+    <!-- add chai -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/15.2.0/sinon.min.js"></script>
+
+    <script>
+        // chai has a lot of stuff, let's make assert global
+        let assert = chai.assert;
+        let expect = chai.expect;
+
+
+    </script>
+    <title>Classes</title>
+    <script>
+
+        class Clock {
+            howMany = 0;
+            timer;
+            constructor(template) {
+                this.template = template;
+            }
+
+            render = () => {
+                let date = new Date();
+
+                let hours = date.getHours();
+                if (hours < 10) hours = '0' + hours;
+
+                let mins = date.getMinutes();
+                if (mins < 10) mins = '0' + mins;
+
+                let secs = date.getSeconds();
+                if (secs < 10) secs = '0' + secs;
+
+                let output = this.template
+                    .replace('h', hours)
+                    .replace('m', mins)
+                    .replace('s', secs);
+
+                this.howMany++;
+            }
+
+            stop() {
+                clearInterval(this.timer);
+            }
+
+            start() {
+                this.render()
+                this.timer = setInterval(this.render, 10);
+            }
+        }
+
+
+    </script>
+</head>
+<body>
+
+
+<script src="classes/testClasses.js"></script>
+<div id="mocha"></div>
+<!-- run tests! -->
+<script> mocha.run(); </script>
+</body>
+</html>
+
