@@ -25,7 +25,7 @@
         class Clock {
             howMany = 0;
             timer;
-            constructor(template) {
+            constructor({template}) {
                 this.template = template;
             }
 
@@ -45,7 +45,7 @@
                     .replace('h', hours)
                     .replace('m', mins)
                     .replace('s', secs);
-
+                console.log(output);
                 this.howMany++;
             }
 
@@ -58,6 +58,61 @@
                 this.timer = setInterval(this.render, 10);
             }
         }
+
+        class ExtendedClock extends Clock {
+            constructor(options) {
+                console.log(`Clock ${options}`)
+                super(options);
+                let { precision = 1000 } = options;
+                this.precision = precision;
+            }
+
+            start() {
+                this.render();
+                this.timer = setInterval(() => this.render(), this.precision);
+            }
+        }
+        class Animal {
+            constructor(name) {
+                this.name = name;
+                this.speed = 0;
+            }
+
+            run(speed) {
+                this.speed = speed;
+                console.log(`${this.name} runs with speed ${this.speed}`);
+            }
+
+            stop() {
+                this.speed = 0;
+                console.log(`${this.name} stands still.`);
+            }
+        }
+
+        class Rabbit extends Animal {
+
+            constructor(name, earLength) {
+                super(name); // it needs to be above "this"
+                this.earLength = earLength
+                this.hidden = true;
+            }
+
+            hide() {
+                this.hidden = true;
+            }
+
+            run(speed) {
+                this.hidden = false;
+                super.run(speed)
+            }
+
+            // override method
+            stop() {
+                super.stop();
+                this.hide();
+            }
+        }
+
 
 
     </script>

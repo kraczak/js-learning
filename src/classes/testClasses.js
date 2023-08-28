@@ -65,12 +65,12 @@ describe("classes", function () {
             assert.throw(() => run_func(button.click, value), TypeError);
         });
 
-        it("Clock clocks every 1 second", async () => {
+        it("Clock clocks 2 times in 25 ms timeframe", async () => {
 
 
-            let clock = new Clock('h:m:s');
+            let clock = new Clock({template: 'h:m:s'});
             clock.start();
-            setTimeout(() => clock.stop(), 25);
+            setTimeout(() => clock.stop(), 22);
 
             await new Promise(r => setTimeout(r, 25));
             assert.equal(clock.howMany, 2);
@@ -79,8 +79,38 @@ describe("classes", function () {
     });
 
     context('Class inheritance', () => {
-        it("", function () {
 
+        it("Class field is not overrode by child class field if constructor not called", function () {
+
+            class NewAnimal {
+                name = "animal"
+                constructor() {
+                    // this will print always "animal" because child class fields are not yet initialized
+                    console.log(this.name);
+
+                }
+            }
+
+            class NewRabbit extends NewAnimal {
+                name = "rabbit";
+            }
+
+            let rabbit = new NewRabbit();
+            // but here its already initialized and name is equal to rabbit
+            assert.equal(rabbit.name, "rabbit")
+        });
+
+
+        it("Rabbit can run and is not hidden", function () {
+            let rabbit = new Rabbit('Kurwik');
+            rabbit.run(10);
+            assert.equal(rabbit.speed, 10)
+            assert.equal(rabbit.hidden, false)
+        });
+
+        it("Rabbit is hidden by default", function () {
+            let rabbit = new Rabbit('Kurwik');
+            assert.equal(rabbit.hidden, true)
         });
     });
 
