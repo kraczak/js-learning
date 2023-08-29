@@ -139,9 +139,14 @@
             }
         }
 
-        class Lolzzz extends CoffeeMachine {
-            method() {
-                console.log(this._waterAmount)
+        class PowerArray extends Array {
+            isEmpty() {
+                return this.length === 0;
+            }
+
+            // built-in methods will use this as the constructor
+            static get [Symbol.species]() {
+                return Array;
             }
         }
 

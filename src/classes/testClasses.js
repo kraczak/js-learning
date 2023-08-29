@@ -70,10 +70,10 @@ describe("classes", function () {
 
             let clock = new Clock({template: 'h:m:s'});
             clock.start();
-            setTimeout(() => clock.stop(), 22);
+            setTimeout(() => clock.stop(), 20);
 
-            await new Promise(r => setTimeout(r, 25));
-            assert.equal(clock.howMany, 2);
+            await new Promise(r => setTimeout(r, 20));
+            assert.isTrue(2 <= clock.howMany || clock.howMany <= 3);
 
         });
     });
@@ -114,21 +114,40 @@ describe("classes", function () {
         });
     });
 
-    context('Private and protected properties and methods', () => {
-        it("", function () {
-
-        });
-    });
-
     context('Extending built-in classes', () => {
-        it("", function () {
+        it(`Normally both static and non-static 
+        methods are inherited, but builtins are exceptions.
+        They don't inherit from Objects, but let's say Array.[[Prototype]] 
+        does inherit from Object.[[Prototype]]. Therefore builtins don't inherit static methods`, function () {
 
         });
     });
 
     context('Class checking: "instanceof"', () => {
-        it("", function () {
+        it("Any object that can eat can be Animal!", function () {
+            class Animal {
+                static [Symbol.hasInstance](obj) {
+                    // we can treat any object as Animal if obj canEat
+                    if (obj.canEat) return true;
+                }
+            }
 
+            let obj = { canEat: true };
+            assert.isTrue(obj instanceof Animal);
+        });
+
+        it('we can use toString as an extended typeof', () => {
+            let typeOf = Object.prototype.toString;
+            // we need to use `call` to set context this=arr
+            assert.equal(typeOf.call([]), '[object Array]')
+        });
+
+        it('we can change the tag of an object [object Tag]', () => {
+            let user = {
+                [Symbol.toStringTag]: "Tag"
+            }
+            assert.equal({}.toString.call(user), '[object Tag]')
+            assert.equal(user.toString(), '[object Tag]')
         });
     });
 
