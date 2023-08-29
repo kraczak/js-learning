@@ -114,12 +114,6 @@ describe("classes", function () {
         });
     });
 
-    context('Static properties and methods', () => {
-        it("", function () {
-
-        });
-    });
-
     context('Private and protected properties and methods', () => {
         it("", function () {
 
