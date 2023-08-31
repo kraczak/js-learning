@@ -25,6 +25,7 @@
         class Clock {
             howMany = 0;
             timer;
+
             constructor({template}) {
                 this.template = template;
             }
@@ -63,7 +64,7 @@
             constructor(options) {
                 console.log(`Clock ${options}`)
                 super(options);
-                let { precision = 1000 } = options;
+                let {precision = 1000} = options;
                 this.precision = precision;
             }
 
@@ -72,6 +73,7 @@
                 this.timer = setInterval(() => this.render(), this.precision);
             }
         }
+
         class Animal {
             constructor(name) {
                 this.name = name;
@@ -117,6 +119,7 @@
         class CoffeeMachine {
             _waterAmount = 0;
             #waterLimit = 200;
+
             constructor(power) {
                 this._power = power
             }
@@ -126,11 +129,12 @@
                 if (value > this.#waterLimit) return this.#waterLimit;
                 return value;
             }
+
             set waterAmount(value) {
                 this._waterAmount = this.#fixWaterAmount(value);
             }
 
-            get waterAmount(){
+            get waterAmount() {
                 return this._waterAmount;
             }
 
@@ -151,22 +155,21 @@
         }
 
         let sayMixin = {
-            say(phrase) {
-                console.log(phrase);
+            say(what) {
+                console.log(what);
             }
         };
 
         let sayHiMixin = {
-            __proto__: sayMixin, // (or we could use Object.setPrototypeOf to set the prototype here)
-
+            __proto__: sayMixin,
             sayHi() {
-                // call parent method
-                super.say(`Hello ${this.name}`); // (*)
+                super.say(`Hello ${this.name}!`);
             },
+
             sayBye() {
-                super.say(`Bye ${this.name}`); // (*)
+                super.say(`Bye ${this.name}`);
             }
-        };
+        }
 
         class User {
             constructor(name) {
@@ -174,11 +177,42 @@
             }
         }
 
-        // copy the methods
-        Object.assign(User.prototype, sayHiMixin);
+        Object.assign(User.prototype, sayHiMixin)
 
-        // now User can say hi
-        new User("Dude").sayHi();
+
+        let eventMixin = {
+            on(eventName, handler) {
+                if (!this._eventHandlers) this._eventHandlers = {};
+                if (!this._eventHandlers[eventName]) this._eventHandlers[eventName] = [];
+                this._eventHandlers[eventName].push(handler);
+            },
+
+            off(eventName, handler) {
+                let handlers = this._eventHandlers?.[eventName];
+                if (!handlers) return;
+                for (let i = 0; i < handlers.length; i++) {
+                    if (handlers[i] === handler) {
+                        // removing ith element, and decreasing `i` not to miss the next element
+                        handlers.splice(i--, 1)
+                    }
+                }
+            },
+            trigger(eventName, ...args) {
+                if (!this._eventHandlers?.[eventName]) {
+                    return;
+                }
+                this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
+            }
+        }
+
+        Object.assign(User.prototype, eventMixin);
+
+        class Menu {
+            choose(value) {
+                this.trigger("select", value);
+            }
+        }
+        Object.assign(Menu.prototype, eventMixin);
 
     </script>
 </head>
