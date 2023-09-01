@@ -1,4 +1,4 @@
-export function pow(x, n) {
+function pow(x, n) {
     if (n === 0) return 1;
     if (n < 0) return 1 / pow(x, -n);
     let result = x;
@@ -7,3 +7,5 @@ export function pow(x, n) {
     }
     return result;
 }
+
+throw new Error('lol');

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- add mocha css, to show results -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
+    <!-- add mocha framework code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+    <script>
+        mocha.setup('bdd'); // minimal setup
+    </script>
+    <!-- add chai -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/15.2.0/sinon.min.js"></script>
+
+    <script>
+        // chai has a lot of stuff, let's make assert global
+        let assert = chai.assert;
+        let expect = chai.expect;
+
+
+    </script>
+    <title>Error handling</title>
+    <script>
+        function loadScript(src, callback) {
+            let script = document.createElement('script');
+            script.src = src;
+
+            script.onload = () => callback(null, script);
+            script.onerror = () => callback(new Error(`Script load error for ${src}`));
+
+            document.head.append(script);
+        }
+        loadScript('pow/pow.js', (error, script) => {
+            if (error) {
+                console.log(error);
+            } else {
+                // script loaded successfully
+                console.log(pow(2, 3));
+            }
+        });
+
+        let promise = new Promise(function(resolve, reject) {
+            setTimeout(() => resolve("done!"), 1000);
+        }).finally(() => {
+            console.log('finished')
+            throw Error('test');
+        });
+
+        // resolve runs the first function in .then
+        promise.then(
+            result => console.log(result), // shows "done!" after 1 second
+            error => console.log(`Error occurred ${error}`) // doesn't run
+        ).then(result => console.log("Double the result - double the fun!"));
+
+    </script>
+
+</head>
+<body>
+
+
+<!--<script src="error-handling/errorHandling.js"></script>-->
+<div id="mocha"></div>
+<!-- run tests! -->
+<script> mocha.run(); </script>
+</body>
+</html>
+
