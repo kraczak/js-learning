@@ -19,38 +19,35 @@
 
 
     </script>
-    <title>Error handling</title>
+    <title>Promises (broken deep below)</title>
     <script>
-        function loadScript(src, callback) {
-            let script = document.createElement('script');
-            script.src = src;
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                let script = document.createElement('script');
+                script.src = src;
 
-            script.onload = () => callback(null, script);
-            script.onerror = () => callback(new Error(`Script load error for ${src}`));
+                script.onload = () => resolve(script);
+                script.onerror = () => reject(new Error(`Could not load script ${src}`));
 
-            document.head.append(script);
+                document.head.append(script);
+            })
         }
-        loadScript('pow/pow.js', (error, script) => {
-            if (error) {
-                console.log(error);
-            } else {
-                // script loaded successfully
-                console.log(pow(2, 3));
-            }
-        });
 
-        let promise = new Promise(function(resolve, reject) {
-            setTimeout(() => resolve("done!"), 1000);
-        }).finally(() => {
-            console.log('finished')
-            throw Error('test');
-        });
+        let scriptPromise = loadScript('pow/pow.js');
 
-        // resolve runs the first function in .then
-        promise.then(
-            result => console.log(result), // shows "done!" after 1 second
-            error => console.log(`Error occurred ${error}`) // doesn't run
-        ).then(result => console.log("Double the result - double the fun!"));
+        scriptPromise.then(
+            script => console.log(pow(5, 5)),
+            error => console.log(`Error occurred: ${error}`)
+        );
+
+        function delay(ms) {
+            return new Promise((resolve, reject) => {
+               setTimeout(() => resolve(), ms)
+            });
+        }
+        console.log(`${new Date().toLocaleString()}`);
+        delay(3000).then(() => console.log(`Run after, at ${new Date().toLocaleString()}`))
+
 
     </script>
 
@@ -58,7 +55,7 @@
 <body>
 
 
-<!--<script src="error-handling/errorHandling.js"></script>-->
+<script src="promises-broken/testPromises.js"></script>
 <div id="mocha"></div>
 <!-- run tests! -->
 <script> mocha.run(); </script>

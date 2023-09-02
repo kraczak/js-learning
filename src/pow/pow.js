@@ -7,5 +7,3 @@ function pow(x, n) {
     }
     return result;
 }
-
-throw new Error('lol');

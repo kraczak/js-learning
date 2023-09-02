@@ -39,9 +39,9 @@ function caesarCipher(str, shift) {
 
 let cipher = `lorem ipsum dolor sit amet, consectetur adipiscing elit.`.toLowerCase();
 
-// for (let i = 0; i < 27; i++) {
-//     console.log(caesarCipher(cipher, i));
-// }
+for (let i = 0; i < 27; i++) {
+    console.log(caesarCipher(cipher, i));
+}
 
 var twoSum = function (nums, target) {
     let map = new Map()
