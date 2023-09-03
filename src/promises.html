@@ -49,6 +49,59 @@
         delay(3000).then(() => console.log(`Run after, at ${new Date().toLocaleString()}`))
 
 
+        new Promise(function(resolve, reject) {
+
+            setTimeout(() => resolve(1), 500); // (*)
+
+        }).then(function(result) { // (**)
+
+            console.log(result); // 1
+            return result * 2;
+
+        }).then(function(result) { // (***)
+
+            console.log(result); // 2
+            return result * 2;
+
+        }).then(function(result) {
+
+            console.log(result); // 4
+            return result * 2;
+
+        });
+
+        function loadJson(url) {
+            return fetch(url)
+                .then(response => response.json());
+        }
+
+        function loadGithubUser(name) {
+            return loadJson(`https://api.github.com/users/${name}`);
+        }
+
+        function showAvatar(githubUser) {
+            console.log(JSON.stringify(githubUser));
+            return new Promise((resolve, reject) => {
+                let img = document.createElement('img');
+                img.src = githubUser.avatar_url;
+                img.className = "promise-avatar-example";
+                img.width = 100;
+                img.height = 100;
+                document.body.append(img);
+
+                setTimeout(() => {
+                    img.remove();
+                    resolve(githubUser);
+                }, 2000);
+
+            });
+        }
+
+        loadGithubUser('kraczak')
+            .then(showAvatar)
+            .then(githubUser => console.log(`finished showing ${githubUser.login}`));
+
+
     </script>
 
 </head>
