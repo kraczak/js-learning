@@ -42,28 +42,29 @@
 
         function delay(ms) {
             return new Promise((resolve, reject) => {
-               setTimeout(() => resolve(), ms)
+                setTimeout(() => resolve(), ms)
             });
         }
+
         console.log(`${new Date().toLocaleString()}`);
         delay(3000).then(() => console.log(`Run after, at ${new Date().toLocaleString()}`))
 
 
-        new Promise(function(resolve, reject) {
+        new Promise(function (resolve, reject) {
 
             setTimeout(() => resolve(1), 500); // (*)
 
-        }).then(function(result) { // (**)
+        }).then(function (result) { // (**)
 
             console.log(result); // 1
             return result * 2;
 
-        }).then(function(result) { // (***)
+        }).then(function (result) { // (***)
 
             console.log(result); // 2
             return result * 2;
 
-        }).then(function(result) {
+        }).then(function (result) {
 
             console.log(result); // 4
             return result * 2;
@@ -97,9 +98,86 @@
             });
         }
 
-        loadGithubUser('kraczak')
-            .then(showAvatar)
-            .then(githubUser => console.log(`finished showing ${githubUser.login}`));
+        // loadGithubUser('kraczak')
+        //     .then(showAvatar)
+        //     .then(githubUser => console.log(`finished showing ${githubUser.login}`));
+
+        function testPromises() {
+            // Promise.all(iterable) accepts multiple promises, result is list of results from promises;
+            // Promise.allSettled - works like all, but does not stop when error occurred
+            // Promise.race - returns the first resolved value or error
+            // Promise.any -- returns first, ignoring errors until the last one
+            let tasks = [['nimbus 1000', 1000], ['nimbus 2000', 2000]];
+            Promise.all(tasks.map(input => {
+                let [text, delay] = input;
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        console.log(text);
+                        resolve(delay);
+                    }, delay);
+                });
+            }));
+            Promise.allSettled(tasks.map(input => {
+                let [text, delay] = input;
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        console.log(text);
+                        resolve(delay);
+                    }, delay);
+                });
+            }));
+
+            Promise.race(tasks.map(input => {
+                let [text, delay] = input;
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        console.log(text);
+                        resolve(delay);
+                    }, delay);
+                });
+            }));
+
+            Promise.any(tasks.map(input => {
+                let [text, delay] = input;
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        console.log(text);
+                        resolve(delay);
+                    }, delay);
+                });
+            }));
+        }
+
+        function promisify(f, manyArgs = false) {
+            // wrapper for a function with callback to return a promise instead
+            return function (...args) { // return a wrapper function
+                return new Promise((resolve, reject) => {
+                    function callback(err, ...results) {
+                        if (err) reject(err);
+                        else resolve(manyArgs ? results : results[0]);
+                    }
+
+                    args.push(callback);
+                    f.call(this, ...args)
+                });
+            };
+        }
+
+        function loadScriptV2(src, callback) {
+            let script = document.createElement('script');
+            script.src = src;
+
+            script.onload = () => callback(null, script);
+            script.onerror = () => callback(new Error(`Script load error for ${src}`));
+
+            document.head.append(script);
+
+        }
+        console.log()
+        loadScriptV2('pow/pow.js', () => console.log(`lol ${pow(2, 10)}`));
+        promisify(loadScriptV2)('pow/pow.js').then(result => console.log(pow(2, 10)));
+
+
 
 
     </script>
