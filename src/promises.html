@@ -184,6 +184,57 @@
         // promise.then(() => alert("promise done!"));
         //
         // alert("code finished");
+
+        // async functions always return Promise
+
+        async function f() {
+
+            let promise = new Promise((resolve, reject) => {
+                setTimeout(() => resolve("done!"), 1000)
+            });
+            let result = await promise;
+            console.log(`awaited for promise to fulfill`);
+            return result;
+        }
+        f().then(output => console.log(output));
+
+        async function showAvatarWithAwait(githubUser) {
+
+            let response = await fetch(`https://api.github.com/users/${githubUser}`)
+            let userData = await response.json()
+
+            let img = document.createElement('img');
+            img.src = userData.avatar_url;
+            img.className = "promise-avatar-example";
+            img.width = 100;
+            img.height = 100;
+            document.body.append(img);
+
+            await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+            img.remove()
+            return githubUser
+        }
+        showAvatarWithAwait('kraczak');
+        // thenable objects are those with a callable then method
+
+        class Thenable {
+            constructor(num) {
+                this.num = num;
+            }
+
+            then(resolve, reject) {
+                console.log(resolve);
+                setTimeout(() => resolve(this.num * 2000), 1000);
+            }
+        }
+
+        async function f2() {
+            let result = await new Thenable(1);
+            console.log(result)
+        }
+
+        f2();
+
     </script>
 
 </head>
