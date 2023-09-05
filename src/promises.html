@@ -177,9 +177,13 @@
         loadScriptV2('pow/pow.js', () => console.log(`lol ${pow(2, 10)}`));
         promisify(loadScriptV2)('pow/pow.js').then(result => console.log(pow(2, 10)));
 
-
-
-
+        // promise handling is always asynchronous and there is a microtasks queue for promises
+        // consequently alert will be shown first
+        // let promise = Promise.resolve();
+        //
+        // promise.then(() => alert("promise done!"));
+        //
+        // alert("code finished");
     </script>
 
 </head>
