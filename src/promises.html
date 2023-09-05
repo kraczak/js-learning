@@ -196,7 +196,7 @@
             console.log(`awaited for promise to fulfill`);
             return result;
         }
-        f().then(output => console.log(output));
+        // f().then(console.log);
 
         async function showAvatarWithAwait(githubUser) {
 
@@ -214,7 +214,7 @@
             img.remove()
             return githubUser
         }
-        showAvatarWithAwait('kraczak');
+        // showAvatarWithAwait('kraczak');
         // thenable objects are those with a callable then method
 
         class Thenable {
@@ -223,17 +223,30 @@
             }
 
             then(resolve, reject) {
-                console.log(resolve);
                 setTimeout(() => resolve(this.num * 2000), 1000);
             }
         }
 
         async function f2() {
             let result = await new Thenable(1);
-            console.log(result)
+            console.log(result); // runs after 1000 ms
         }
 
-        f2();
+        // async class methods
+        class Waiter {
+            async wait() {
+                return 1; // returns a Promise instead of primitive
+            }
+
+            async reject() {
+                return Promise.reject(new Error("Whoops!"));
+            }
+
+            async throw() {
+                throw new Error("Throw error");
+            }
+
+        }
 
     </script>
 
