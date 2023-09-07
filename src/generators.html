@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- add mocha css, to show results -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
+    <!-- add mocha framework code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+    <script>
+        mocha.setup('bdd'); // minimal setup
+    </script>
+    <!-- add chai -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/15.2.0/sinon.min.js"></script>
+
+    <script>
+        // chai has a lot of stuff, let's make assert global
+        let assert = chai.assert;
+        let expect = chai.expect;
+
+
+    </script>
+    <title>Generators</title>
+    <script>
+
+        let range = {
+            from: 1,
+            to: 5,
+
+            * [Symbol.iterator]() {
+                for (let i = this.from; i < this.to; i++) {
+                    yield i;
+                }
+            }
+        }
+
+        function* generateSequence(start, end) {
+            for (let i = start; i <= end; i++) {
+                yield i;
+            }
+        }
+
+        function* generatePasswordCodes() {
+            yield* generateSequence(48, 57);
+            yield* generateSequence(65, 90);
+            yield* generateSequence(97, 122);
+        }
+
+        function generateAlphanumeric() {
+            let str = '';
+            for (let code of generatePasswordCodes()) {
+                str += String.fromCharCode(code);
+            }
+            console.log(str);
+        }
+
+
+        function* gen() {
+            // Pass a question to the outer code and wait for an answer
+            let result = yield "2 + 2 = ?"; // (*)
+
+            alert(`you provided ${result}`);
+        }
+
+        let generator = gen();
+        let response = prompt(generator.next().value);
+        generator.next(response);
+
+
+    </script>
+
+</head>
+<body>
+
+
+<!--<script src="error-handling/errorHandling.js"></script>-->
+<div id="mocha"></div>
+<!-- run tests! -->
+<script> mocha.run(); </script>
+</body>
+</html>
+
