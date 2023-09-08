@@ -81,6 +81,60 @@
         }
 
 
+        async function* ranged(from, to) {
+            for (let i = from; i <= to; i++){
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                console.log(i);
+            }
+        }
+
+        async function* fetchCommits(repo) {
+            let url = `https://api.github.com/repos/${repo}/commits`
+            while (url) {
+                const response = await fetch(url, {
+                    headers: {'User-Agent': 'Script'}
+                });
+                const body = await response.json();
+                let nextPage = response.headers.get('Link').match(/<(.*?)>; rel="next"/);
+                nextPage = nextPage?.[1]
+                url = nextPage;
+
+                for (let commit of body) {
+                    yield commit;
+                }
+
+            }
+        }
+        // let k = 0;
+        // (async () => {
+        //   for await (let commit of fetchCommits('javascript-tutorial/en.javascript.info')) {
+        //     if (commit[0] % 1000 === 0) {
+        //         console.log(`downloaded ${JSON.stringify(commit[1]['sha'])} commits`);
+        //     }
+        //   }
+        // })();
+
+        (async () => {
+
+            let count = 0;
+            let distinctAuthors = new Map()
+            for await (const c of fetchCommits('javascript-tutorial/en.javascript.info')) {
+                console.log(c['sha'])
+                let val = c.sha;
+                distinctAuthors.set(
+                    val,
+                    distinctAuthors.get(val) ? distinctAuthors.get(val) + 1 : 1
+                )
+
+                if (++count === 1000) { // let's stop at 100 commits
+                    console.log(distinctAuthors);
+                    break;
+                }
+            }
+
+        })();
+
+
 
     </script>
     <script src="generators/test_generators.js"></script>
