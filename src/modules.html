@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modules</title>
+</head>
+<body>
+<!--loads after html file is loaded-->
+<script type="module">
+    console.log('this is last');
+    import {sayHi} from "./modules/sayHi.js";
+    import {user} from "./modules/user.js";
+
+    document.body.innerHTML = user;
+    sayHi(user);
+    console.log(import.meta.url);
+</script>
+<script async type="module">
+    console.log('this is second');
+</script>
+
+<script>
+    console.log('this is first');
+</script>
+
+<!--works inline, loads at the same time as html file-->
+
+</body>
+</html>
