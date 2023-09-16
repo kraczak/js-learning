@@ -21,6 +21,25 @@
 
 <script>
     console.log('this is first');
+    (async function f() {
+        try {
+            let response = await fetch('http://0.0.0.0:3000/', {
+                method: 'PUT',
+                // credentials: "include"
+            });
+            response.headers.forEach((val, key) => console.log(`${val} : ${key}`));
+        } catch(err) {
+            alert(err); // Failed to fetch
+        }
+    })()
+
+    // Safe methods: GET, POST or HEAD
+    // Safe headers: Accept, Accept-Language, Content-Language,
+    //      and Content-Type (with the value application/x-www-form-urlencoded, multipart/form-data or text/plain)
+
+    // let script = document.createElement('script');
+    // script.src = `http://another.com/weather.json?callback=gotWeather`;
+    // document.body.append(script);
 </script>
 
 <!--works inline, loads at the same time as html file-->
