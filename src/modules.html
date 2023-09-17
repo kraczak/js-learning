@@ -40,6 +40,16 @@
     // let script = document.createElement('script');
     // script.src = `http://another.com/weather.json?callback=gotWeather`;
     // document.body.append(script);
+
+    let fileId = file => [file.name, file.size, file.lastModified].join('-');
+    async function bytesUploaded(file) {
+        return await fetch('status', {
+            'X-File-Id': fileId(file)
+        })
+    }
+    function uploadFile(file) {
+
+    }
 </script>
 
 <!--works inline, loads at the same time as html file-->
