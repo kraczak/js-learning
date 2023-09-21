@@ -2,7 +2,7 @@
   "name": "js",
   "version": "1.0.0",
   "description": "",
-  "main": "src/modules/websocket/index.js",
+  "main": "src/modules/socket-io/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
