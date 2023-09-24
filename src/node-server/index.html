@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Subscriber</title>
+    <style>
+        body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    </style>
+</head>
+
+<body>
+
+<form id="form" action="">
+    <input id="input" autocomplete="off" autofocus/><button>Send</button>
+</form>
+<ul id="subscribers"></ul>
+<script>
+    const form = document.getElementById('form');
+    const subList = document.getElementById('subscribers');
+
+    function addElement(text) {
+        // create a new div element
+        const newDiv = document.createElement("div");
+
+        // and give it some content
+        const newContent = document.createTextNode(text);
+
+        // add the text node to the newly created div
+        newDiv.appendChild(newContent);
+
+        // add the newly created element and its content into the DOM
+        const currentDiv = document.getElementById("div1");
+        document.body.insertBefore(newDiv, currentDiv);
+        return newDiv;
+    }
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        if (input.value) {
+            fetch('http://localhost:8080/subscribers', {
+                method: 'POST', body: JSON.stringify({email: input.value})
+            }).then(resp => resp.json()).then(resp => {
+                if (resp.subscriber) {
+                    const item = document.createElement('li');
+                    item.textContent = resp.subscriber;
+                    subList.appendChild(item);
+                    window.scrollTo(0, document.body.scrollHeight);
+                } else {
+                    let element = addElement(`${input.value} already exists`);
+                    setTimeout(() => {
+                        element.remove();
+                    }, 1500);
+                }
+
+            });
+        }
+    });
+</script>
+</body>
+</html>
