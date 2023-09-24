@@ -29,7 +29,6 @@ function onDigits(req, res) {
 
 function accept(req, res) {
     if (req.url === '/digits') {
-        console.log(req);
         onDigits(req, res);
         return;
     }
