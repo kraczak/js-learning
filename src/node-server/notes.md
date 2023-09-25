@@ -15,3 +15,11 @@ Such protection takes time to implement though.
 ### Solution No.2
 We can use `samesite` option. If set to `samesite=strict`
 then cookie is never sent if user comes from outside the same site.
+There is also second option `samesite=lax` (more relaxed version), when cookie is sent if:
+- HTTP method is safe
+- the operation performs a top-level navigation (changes URL in the browser address bar), 
+but not when navigation is performed in an `<iframe>`
+
+
+`domain=site.com`, by default a cookie is visible on the current domain only. 
+If the domain is set explicitly, the cookie becomes visible on subdomains.
